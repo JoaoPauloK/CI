@@ -3,9 +3,6 @@ from git import Repo
 
 repo = Repo('/home/joaopaulo/work/teste/ci')
 
-def check_updates(repo: Repo):
+def is_up_to_date(repo: Repo):
     """ Check if there is any update on remote repository """
-    local = repo.head.commit
-    remote = repo.remote()
-
-check_updates(repo)
+    return repo.head.commit.hexsha == repo.remote().refs[0].commit.hexsha
