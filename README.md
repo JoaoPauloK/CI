@@ -1,2 +1,2 @@
 # CI
-Simple Ptyhon CI Server
+Simple Python CI Server
