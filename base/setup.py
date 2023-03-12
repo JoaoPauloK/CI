@@ -1,12 +1,15 @@
-# List of repositories to be watched and tested
 TESTED_APPS = [
     'br_produto',
-    # 'br_financeiro',
-    # 'br_estoque',
-    # 'br_frota',
+    'br_financeiro',
+    'br_estoque',
+    'br_frota',
     # 'br_fiscal',
-    # 'confinamento',
+    'confinamento',
     # 'app_test'
 ]
-PROJECT_NAME = 'teste' # Orun project which will provide the environment for the tests
-FETCH_TIME = 10 # Time interval between automatic fecthes
+PROJECT_NAME = 'teste' 
+FETCH_TIME = 10 
+REPORT_PATH = '/home/joaopaulo/work/teste/tmp'
+SENDER = 'joaopaulo@katrid.com'
+SENDER_PASSWORD = 'zesin975'
+EMAILS = ['joaocoimbra881@gmail.com']

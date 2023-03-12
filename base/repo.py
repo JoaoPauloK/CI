@@ -5,7 +5,7 @@ from git.exc import InvalidGitRepositoryError
 from .decorators import env_required
 from .testing import execute
 from .setup import TESTED_APPS
-
+from export.export import TestReport
 
 def get_repo(repo_name: str) -> Repo:
     """Return Repo object based on path if it is a valid git repository."""
@@ -28,10 +28,21 @@ def update_repo(repo: str):
     """Execute pull on the given repository."""
     get_repo(repo).remotes.origin.pull()
 
-def run_tests():
-    """Run the automated tests founded in the repo."""
-    for app in TESTED_APPS:
-        execute(app)
+@env_required
+def perform_tests(test_labels: list=None):
+    """Run the automated tests founded in the each app of labels list."""
+    # tmp_path = os.path.join('..', 'tmp')
+    # tmp_file = os.path.join(tmp_path, 'teste.log')
+    # if not os.path.isdir(tmp_path):
+    #     os.mkdir(tmp_path)
+    # if os.path.isfile(tmp_file):
+    #     os.remove(tmp_file)
+    test_labels = test_labels or TESTED_APPS
+    report = TestReport()
+    for app in test_labels:
+        execute(app, report)
+    if report.has_errors:
+        report.send_mail()
 
 @env_required
 def get_repo_path(appname: str) -> str:
@@ -41,7 +52,6 @@ def get_repo_path(appname: str) -> str:
     except ImportError as err:
         raise ImportError(
             "Couldn't import %s. Are you sure it's installed and "
-            "available on your PYTHONPATH environment variable? Did you "
-            "forget to activate a virtual environment?" % (appname)
+            "available on your PYTHONPATH environment variable?" % (appname)
         ) from err
     return os.path.dirname(os.path.dirname(module.__file__))
